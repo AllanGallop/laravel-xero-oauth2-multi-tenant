@@ -10,7 +10,7 @@ class XeroAuthorized
     public $refresh_token;
     public $id_token;
     public $expires;
-    public $tenant_id;
+    public $tenants;
 
     public function __construct($data)
     {
@@ -18,6 +18,6 @@ class XeroAuthorized
         $this->refresh_token = $data['refresh_token'];
         $this->id_token      = $data['id_token'];
         $this->expires       = $data['expires'];
-        $this->tenant_id     = $data['tenant_id'];
+        $this->tenants       = $data['tenants'];
     }
 }

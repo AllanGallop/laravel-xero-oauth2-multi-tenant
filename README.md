@@ -126,6 +126,65 @@ class XeroController extends Controller
 Route::get('/manage/xero', [\App\Http\Controllers\XeroController::class, 'index'])->name('xero.auth.success');
 ```
 
+## Multi-Tenant
+
+For multi-tenant scenerios you can call the method `getTenants()` from the `Webfox\Xero\OauthCredentialManager` which will return an array of currently connected organisations
+
+```php
+$xeroCredentials->getTenants();
+/** 
+* Array
+* (
+*    [0] => Array
+*    (
+*    [Id] =>c5929985-9c2b-4ec9-84ee-406be3596249
+*    [Name] => Example Company A
+*    )
+*    [1] => Array
+*    (
+*    [Id] => 939d5c21-7069-4010-b6f1-7520172f214c
+*    [Name] => Example Company B
+*    )
+* )
+ **/
+```
+
+Likewise `getTenantId()` has been extended to accept the index key as a parameter (defaults to 0 if left empty)
+
+```php
+$xeroCredentials->getTenantId();
+// Returns c5929985-9c2b-4ec9-84ee-406be3596249
+
+$xeroCredentials->getTenantId(0);
+// Returns c5929985-9c2b-4ec9-84ee-406be3596249
+
+$xeroCredentials->getTenantId(1);
+// Returns 939d5c21-7069-4010-b6f1-7520172f214c
+```
+
+These provide the means to implement your own logic for multi-tenant organisations, for example:
+```php
+...
+
+    /**
+     * Retrieve all contacts for given tenant
+     * @access public
+     * @param  integer $tenant
+     * @throws Exception Credentials invalid
+     * @return Array Contacts
+     **/
+    public function getContacts(int $tenant): array
+    {
+        if ($xeroCredentials->exists()) {
+            $xero = resolve(\XeroAPI\XeroPHP\Api\AccountingApi::class);    
+            return = $xero->getContact($xeroCredentials->getTenantId($tenant));
+        }else{
+            throw new \Exception("Credentials are invalid");
+        }
+    }
+...
+```
+
 ## Credential Storage
 Credentials are stored in a JSON file using the default disk on the Laravel Filesystem, with visibility set to private. This allows credential sharing across multiple servers using a shared disk such as S3, regardless of which server conducted the OAuth flow.
 

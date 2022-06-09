@@ -11,6 +11,7 @@ use Webfox\Xero\Events\XeroAuthorized;
 use Webfox\Xero\OauthCredentialManager;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Log;
 
 class AuthorizationCallbackController extends Controller
 {
@@ -26,9 +27,15 @@ class AuthorizationCallbackController extends Controller
 
             $accessToken = $provider->getAccessToken('authorization_code', $request->only('code'));
             $identity->getConfig()->setAccessToken((string)$accessToken->getToken());
-            $tenantId = $identity->getConnections()[0]->getTenantId();
-
-            $oauth->store($accessToken, $tenantId);
+            //Get all tenants
+            $tenants = [];
+            foreach($identity->getConnections() as $c) {
+            $tenants[] = [
+                "Id" => $c->getTenantId(),
+                "Name"=> $c->getTenantName()
+            ];
+            }
+            $oauth->store($accessToken, $tenants);
             Event::dispatch(new XeroAuthorized($oauth->getData()));
 
             return $this->onSuccess();
