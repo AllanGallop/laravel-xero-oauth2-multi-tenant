@@ -10,7 +10,7 @@ Laravel.
 
 You can install this package via composer using the following command:
 ```
-composer require webfox/laravel-xero-oauth2
+composer require allangallop/laravel-xero-oauth2-multi-tenant
 ```
 
 The package will automatically register itself.

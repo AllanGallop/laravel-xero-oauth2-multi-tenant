@@ -1,6 +1,6 @@
 {
-    "name": "webfox/laravel-xero-oauth2",
-    "description": "A Laravel integration for Xero using the Oauth 2.0 spec",
+    "name": "allangallop/laravel-xero-oauth2-multi-tenant",
+    "description": "A fork of webfox/laravel-xero-oauth2 that permits mutli-tenant usage",
     "keywords": [
         "webfox",
         "laravel-xero-oauth2",
@@ -8,9 +8,15 @@
         "laravel",
         "oauth2"
     ],
-    "homepage": "https://github.com/webfox/laravel-xero-oauth2",
+    "homepage": "https://github.com/AllanGallop/laravel-xero-oauth2-multi-tenant",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Allan Gallop",
+            "email": "allangallop@gmail.com",
+            "homepage": "https://github.com/AllanGallop",
+            "role": "Developer"
+        },
         {
             "name": "Matthew Hailwood",
             "email": "matthew@webfox.co.nz",
